@@ -1,5 +1,5 @@
 # contact-book
-store contact details 
+Detail Manager(add details,view dettails and delete details)
 
 def load_users(filename):
     """Load user data into a dictionary"""
