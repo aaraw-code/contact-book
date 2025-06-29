@@ -1,36 +1,86 @@
 # contact-book
 store contact details 
 
-contact = {}
+def load_users(filename):
+    """Load user data into a dictionary"""
+    users = {}
+    try:
+        with open(filename, "r") as file:
+            data = file.read().split("--- New Entry ---\n")
+            for entry in data:
+                lines = entry.strip().split("\n")
+                if len(lines) >= 4:
+                    name = lines[0].split(":")[1].strip()
+                    age = lines[1].split(":")[1].strip()
+                    email = lines[2].split(":")[1].strip()
+                    city = lines[3].split(":")[1].strip()
+                    users[name.lower()] = {
+                        "Name": name,
+                        "Age": age,
+                        "Email": email,
+                        "City": city
+                    }
+    except FileNotFoundError:
+        pass
+    return users
 
-while True:
-    print("\nContact Book App")
-    print("1. Create contact")
-    print("2. View contact")
-    print("3. update contact")
-    print("4. Delete contact")
-    print("5. Search contact")
-    print("6. Count contact")
-    print("7. Exit")
+def save_user(filename, user):
+    """Append new user to file"""
+    with open(filename, "a") as file:
+        file.write(f"--- New Entry ---\n")
+        file.write(f"Name: {user['Name']}\n")
+        file.write(f"Age: {user['Age']}\n")
+        file.write(f"Email: {user['Email']}\n")
+        file.write(f"City: {user['City']}\n")
 
+def main():
+    filename = "user_data.txt"
+    users = load_users(filename)
 
-    user_input = input("Enter your choice: ")
+    print("1. Create New Account")
+    print("2. View Existing Account")
+    print("3. Delete Account")
 
-    if user_input == "1":
-        name = input("Enter your name: ")
-        if name in contact:
-            print(f"This {name} is already exist!")
+    choice = input("Enter your choice (1,2 or 3): ")
+
+    if choice == "1":
+        name = input("Enter your name: ").strip()
+        if name.lower() in users:
+            print("⚠️ This name already exists. Please try a different name.")
         else:
-                
-            age = int(input("Enter age: "))
-            email = input("Enter email: ")
-            mobile = input("Enter mobile number: ")
-                
+            age = input("Enter your age: ").strip()
+            email = input("Enter your email: ").strip()
+            city = input("Enter your city: ").strip()
 
-            with open("demo.txt","a") as file:
-                file.write(f" name {name}\n")
-                file.write(f"email {email}\n")
-                file.write(f"mobile no {mobile}\n")
+            user = {
+                "Name": name,
+                "Age": age,
+                "Email": email,
+                "City": city
+            }
+            save_user(filename, user)
+            print("✅ Account created successfully!")
+
+    elif choice == "2":
+        search_name = input("Enter the name to search: ").strip().lower()
+        if search_name in users:
+            user = users[search_name]
+            print("\n✅ Account Found:")
+            print(f"Name : {user['Name']}")
+            print(f"Age  : {user['Age']}")
+            print(f"Email: {user['Email']}")
+            print(f"City : {user['City']}")
+        else:
+            print("❌ No account found with that name.")
+
+    else:
+        
+        print("❌ Invalid choice. Please enter 1 or 2.")
+    
+        
+
+# Run the program
+main()
 
 
-        print("Your record has been saved succesfully!")
+          
