@@ -1,4 +1,4 @@
-# contact-book
+#contact manager
 Detail Manager(add details,view dettails and delete details)
 
 def load_users(filename):
