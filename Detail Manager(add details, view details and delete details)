@@ -10,7 +10,7 @@ def load_users(filename):
             for entry in data:
                 lines = entry.strip().split("\n")
                 if len(lines) >= 4:
-                    name = lines[0].split(":")[1].strip()
+                    name = lines[0].split(":")[1].strip()        #strip = use to remove extra space
                     age = lines[1].split(":")[1].strip()
                     email = lines[2].split(":")[1].strip()
                     city = lines[3].split(":")[1].strip()
@@ -62,7 +62,7 @@ def main():
             print("✅ Account created successfully!")
 
     elif choice == "2":
-        search_name = input("Enter the name to search: ").strip().lower()
+        search_name = input("Enter the name to search: ").strip().lower()    #lower() = change inputs in lower case
         if search_name in users:
             user = users[search_name]
             print("\n✅ Account Found:")
